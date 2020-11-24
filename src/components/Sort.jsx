@@ -1,12 +1,58 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
+import classNames from "classnames";
+
+const sortType = [
+  {
+    id: 0,
+    type: "popular",
+    text: "популярности",
+  },
+  {
+    id: 1,
+    type: "cost",
+    text: "цене",
+  },
+  {
+    id: 2,
+    type: "alphabet",
+    text: "алфавиту",
+  },
+];
 
 function Sort() {
+  const [activeSortType, setActiveSortType] = React.useState(0);
+  const [viewItem, setViewItem] = React.useState(false);
+  const sortRef = React.useRef();
+
+  const onSelectSortType = (index) => {
+    setActiveSortType(index);
+    setViewItem(!viewItem);
+  };
+
+  const openSortHandler = () => {
+    setViewItem(!viewItem);
+  };
+
+  const outsideClikHandler = (event) => {
+    //event.composedPath && event.composedPath() for Safari
+    const path = event.path || (event.composedPath && event.composedPath());
+    if (!path.includes(sortRef.current)) {
+      setViewItem(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.body.addEventListener("click", outsideClikHandler);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort" onClick={openSortHandler}>
       <div className="sort__label">
         <svg
+          className={classNames({ open: viewItem === false })}
           width="10"
-          height="6"
+          height="5"
           viewBox="0 0 10 6"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -17,13 +63,22 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span>{sortType[activeSortType].text}</span>
       </div>
-      <div className="sort__popup">
+      <div className={classNames("sort__popup", { close: viewItem === false })}>
         <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
+          {sortType &&
+            sortType.map((sortItem, index) => {
+              return (
+                <li
+                  key={sortItem.id}
+                  className={classNames({ active: activeSortType === index })}
+                  onClick={() => onSelectSortType(index)}
+                >
+                  {sortItem.text}
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>
