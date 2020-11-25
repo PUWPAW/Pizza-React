@@ -1,9 +1,9 @@
 import React from "react";
 import classNames from "classnames";
 
-const types = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
-
 function Categories() {
+  const types = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
+
   const [activeItem, setActivItem] = React.useState(null);
 
   const onSelectItem = (index) => {

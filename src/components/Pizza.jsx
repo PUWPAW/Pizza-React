@@ -1,6 +1,7 @@
 import React from "react";
-import Button from "./Button";
 import classNames from "classnames";
+
+import Button from "./Button";
 
 function Pizza({ imageUrl, name, price, types, sizes }) {
   const availableTypes = ["тонкое", "традиционное"];
