@@ -25,6 +25,9 @@ function Sort() {
   const [viewItem, setViewItem] = React.useState(false);
   const sortRef = React.useRef();
 
+  const activeSort =
+    sortType.length === 0 ? "Нет данных" : sortType[activeSortType].text;
+
   const onSelectSortType = (index) => {
     setActiveSortType(index);
     setViewItem(!viewItem);
@@ -47,7 +50,11 @@ function Sort() {
   }, []);
 
   return (
-    <div ref={sortRef} className="sort" onClick={openSortHandler}>
+    <div
+      ref={sortRef}
+      className="sort"
+      onClick={sortType.length === 0 ? null : openSortHandler}
+    >
       <div className="sort__label">
         <svg
           className={classNames({ open: viewItem === false })}
@@ -63,7 +70,7 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>{sortType[activeSortType].text}</span>
+        <span>{activeSort}</span>
       </div>
       <div className={classNames("sort__popup", { close: viewItem === false })}>
         <ul>
