@@ -1,14 +1,18 @@
 import React from "react";
 import classNames from "classnames";
 
-function Button(props) {
+function Button({ type, outline, onClick, children }) {
   const btnClasses = classNames("button", {
-    "button--cart": props.type === "cart",
-    "button--add": props.type === "add",
-    "button--outline": props.outline,
+    "button--cart": type === "cart",
+    "button--add": type === "add",
+    "button--outline": outline,
   });
 
-  return <button className={btnClasses}>{props.children}</button>;
+  return (
+    <button className={btnClasses} onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;
