@@ -1,13 +1,14 @@
 import React from "react";
 import classNames from "classnames";
 
-function Categories() {
-  const types = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
+const types = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
+const Categories = React.memo(function Categories({ onClickItem }) {
   const [activeItem, setActivItem] = React.useState(null);
 
   const onSelectItem = (index) => {
     setActivItem(index);
+    onClickItem(index);
   };
 
   return (
@@ -33,6 +34,6 @@ function Categories() {
       </ul>
     </div>
   );
-}
+});
 
 export default Categories;

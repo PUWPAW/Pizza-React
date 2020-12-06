@@ -20,7 +20,7 @@ const sortType = [
   },
 ];
 
-function Sort() {
+const Sort = React.memo(function Sort() {
   const [activeSortType, setActiveSortType] = React.useState(0);
   const [viewItem, setViewItem] = React.useState(false);
   const sortRef = React.useRef();
@@ -90,6 +90,6 @@ function Sort() {
       </div>
     </div>
   );
-}
+});
 
 export default Sort;

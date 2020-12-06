@@ -1,72 +1,79 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import Axios from "axios";
+
 import { Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { Header } from "./components";
 import { Cart, Home } from "./pages";
+import { Header } from "./components";
 
+import { setPizzas } from "./redux/actions/actionPizzas";
 import "./scss/app.scss";
-import { setPizzas as setPizzasAction } from "./redux/actions/actionPizzas";
 
-// function App() {
-//   const [pizzaState, setPizzaState] = React.useState([]);
+function App() {
+  const dispatch = useDispatch();
 
-//   React.useEffect(() => {
-//     const apiUrl = "http://localhost:3000/db.json";
-
-//     Axios.get(apiUrl).then(({ data }) => setPizzaState(data.pizzas));
-//   }, [setPizzaState]);
-
-//   return (
-//     <div className="wrapper">
-//       <Header />
-//       <div className="content">
-//         <Route path="/" exact>
-//           <Home state={pizzaState} />
-//         </Route>
-//         <Route path="/cart">
-//           <Cart />
-//         </Route>
-//       </div>
-//     </div>
-//   );
-// }
-
-class App extends React.Component {
-  componentDidMount() {
+  window.test = () => {
     const apiUrl = "http://localhost:3000/db.json";
-    Axios.get(apiUrl).then(({ data }) => this.props.setPizzas(data.pizzas));
-  }
+    Axios.get(apiUrl).then(({ data }) => dispatch(setPizzas(data.pizzas)));
+  };
 
-  render() {
-    console.log("this.props", this.props);
-    return (
-      <div className="wrapper">
-        <Header />
-        <div className="content">
-          <Route path="/" exact>
-            <Home state={this.props.pizzas} />
-          </Route>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-        </div>
+  React.useEffect(() => {
+    const apiUrl = "http://localhost:3001/pizzas";
+    Axios.get(apiUrl).then(({ data }) => dispatch(setPizzas(data)));
+  }, []);
+
+  return (
+    <div className="wrapper">
+      <Header />
+      <div className="content">
+        <Route path="/" component={Home} exact />
+        <Route path="/cart" component={Cart} exact />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    pizzas: state.pizzas.items,
-  };
-};
+export default App;
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setPizzas: (items) => dispatch(setPizzasAction(items)),
-  };
-};
+// class App extends React.Component {
+//   componentDidMount() {
+//     const apiUrl = "http://localhost:3000/db.json";
+//     Axios.get(apiUrl).then(({ data }) => this.props.setPizzas(data.pizzas));
+//   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+//   render() {
+// window.test = () => {
+//   const apiUrl = "http://localhost:3000/db.json";
+//   Axios.get(apiUrl).then(({ data }) => this.props.setPizzas(data.pizzas));
+// };
+//     return (
+//       <div className="wrapper">
+//         <Header />
+//         <div className="content">
+//           <Route path="/" exact>
+//             <Home state={this.props.pizzas} />
+//           </Route>
+//           <Route path="/cart">
+//             <Cart />
+//           </Route>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     pizzas: state.pizzas.items,
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     setPizzas: (items) => dispatch(setPizzasAction(items)),
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
